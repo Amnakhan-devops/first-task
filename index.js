@@ -16,7 +16,7 @@ connection.connect(err => {
   if (err) {
     console.error("❌ DB connection error:", err.message);
   } else {
-    console.log("✅ Successfully connected to Cloud SQL via Proxy!");
+    console.log("✅ Successfully connected to MY SQL Database!");
   }
 });
 
