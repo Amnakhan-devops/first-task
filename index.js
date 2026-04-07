@@ -23,7 +23,7 @@ connection.connect(err => {
 app.get('/', (req, res) => {
   connection.query('SELECT 1 AS result', (err, results) => {
     if (err) return res.status(500).send("DB Error: " + err.message);
-    res.send(`🚀 Connected to Cloud SQL! Result: ${results[0].result}`);
+    res.send(`🚀 Connected to Database Result: ${results[0].result}`);
   });
 });
 
