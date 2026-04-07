@@ -3,7 +3,7 @@ const mysql = require('mysql2');
 
 const app = express();
 
-// Create connection using env variables
+// Create connection
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -11,27 +11,25 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-// Connect once when server starts
+// Try connecting (but don't crash app)
 connection.connect(err => {
   if (err) {
-    console.error("❌ DB connection error:", err);
+    console.error("❌ DB connection error:", err.message);
   } else {
-    console.log("✅ Connected to MySQL!");
+    console.log("✅ DB connected");
   }
 });
 
 app.get('/', (req, res) => {
   connection.query('SELECT 1 AS result', (err, results) => {
     if (err) {
-      console.error(err);
-      return res.send("❌ Query failed: " + err.message);
+      return res.send("❌ Query error: " + err.message);
     }
-
-    res.send(`🚀 Successfully deployed App and DB connected! Result: ${results[0].result}`);
+    res.send("✅ Connected! Result: " + results[0].result);
   });
 });
 
-// Cloud Run port
+// MUST listen on PORT
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
